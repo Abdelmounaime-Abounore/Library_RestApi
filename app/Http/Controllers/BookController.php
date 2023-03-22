@@ -67,10 +67,7 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
-    {
-        //
-    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -78,10 +75,7 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit(Book $book)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
