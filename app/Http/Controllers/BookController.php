@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -132,8 +133,30 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
+
     public function destroy(Book $book)
     {
-       
+        $book->delete();
+        return response()->json([
+            'success' => 'Book has been deleted'
+        ]);
+    }
+
+    // public function getBooksByCategory($category)
+    // {
+    //     $books = Book::where('category', $category)->get();
+    //     return response()->json($books);
+    // }
+
+    public function getBooksByCategory($category_name)
+    {
+        if(Category::where('name', $category_name)->exists()){
+            $category = Category::where('name', $category_name)->first();
+            $books = Book::where('category_id', $category->id)->get();
+            return response()->json($books);
+        }
+        else{
+            return response()->json(['message' => 'Category not found'], 404);
+        }
     }
 }
