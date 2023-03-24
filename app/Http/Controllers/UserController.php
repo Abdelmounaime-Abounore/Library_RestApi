@@ -24,13 +24,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->save();
-    
-        return response()->json(['status' => 'success', 'message' => 'Account created successfully!']);
+        
     }
 
     /**
@@ -41,7 +35,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8',
+        ]);
+
+        $user = new User();
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->role_id = 3;
+        $user->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Account created successfully!']);
     }
 
     /**
