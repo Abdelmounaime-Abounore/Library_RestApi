@@ -39,7 +39,7 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
         
-        $book = Category::create([
+        $category = Category::create([
             'name' => $request->name,
         ]);
         return response()->json([
@@ -76,9 +76,22 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        if(!$category) {
+            return response()->json(['message' => 'Book not found']);
+        }
+
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+        $category->name = $request->name;
+        $category->save();
+
+        return response()->json([
+            'success' => 'Category has been updated'
+        ]);
     }
 
     /**
@@ -89,6 +102,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response()->json([
+            'success' => 'Category has been deleted'
+        ]);
     }
 }

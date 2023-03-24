@@ -86,6 +86,12 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $book = Book::find($id);
+
+        if (!$book) {
+            return response()->json(['message' => 'Book not found'], 404);
+        }
+
         $this->validate($request, [
             'title' => 'required',
             'author' => 'required',
@@ -97,12 +103,6 @@ class BookController extends Controller
             'content' => 'required',
             'category_id' => 'required'
         ]);
-
-        $book = Book::find($id);
-
-        if (!$book) {
-            return response()->json(['message' => 'Book not found'], 404);
-        }
 
         $book->title = $request->title;
         $book->author = $request->author;
@@ -129,18 +129,12 @@ class BookController extends Controller
      */
 
     public function destroy(Book $book)
-    {
+    {   
         $book->delete();
         return response()->json([
             'success' => 'Book has been deleted'
         ]);
     }
-
-    // public function getBooksByCategory($category)
-    // {
-    //     $books = Book::where('category', $category)->get();
-    //     return response()->json($books);
-    // }
 
     public function getBooksByCategory($category_name)
     {
