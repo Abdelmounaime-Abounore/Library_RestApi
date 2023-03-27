@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -79,9 +80,26 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        if (Auth::check()) {
+            
+            $user = Auth::user();
+    
+            
+            $this->validate($request, [
+                'email' => 'required|email|unique:users,email,'.$user->id,
+                'password' => 'required|min:8|confirmed'
+            ]);
+    
+            $user->email = $request->input('email');
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
+            
+            return response()->json(['message' => 'Credentials updated successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
 
     /**
