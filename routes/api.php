@@ -31,6 +31,5 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('me', [AuthController::class, 'me']);
 Route::post('logout', [AuthController::class, 'logout']);
 
-// Route::put('/users/credentials', [UserController::class,'update'])->middleware('auth');
 
 
