@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,9 @@ Route::get('/', function () {
 });
 
 Route::get('/books/{category}', [BookController::class, 'getBooksByCategory']);
-// Route::put('/users/credentials', [UserController::class, 'updateCredentials'])->middleware('auth');
+Route::put('/user/update', [UserController::class,'updateInfo'])->middleware('auth:api');
+Route::get('/csrf', function () {
+    return response()->json([
+        'token' => csrf_token(),
+    ]);
+});
