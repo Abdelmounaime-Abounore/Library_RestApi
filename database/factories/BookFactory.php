@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,8 +25,8 @@ class BookFactory extends Factory
             'publish_date' => fake()->date(),				
             'pages_number' => fake()->numberBetween(1,1000),	
             'location' => fake()->name(),	
-            'content' => fake()->paragraph(3, true),	
-            'category_id' => fake()->numberBetween(1, 1000)
+            'content' => fake()->text(),	
+            'category_id' => Category::factory()
         ];
     }
 }
