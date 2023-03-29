@@ -11,6 +11,8 @@ class UserController extends Controller
 {
     public function __construct()
     {
+
+        // middleware cladd runs when object is instantiated .
         $this->middleware('auth:api', ['except' => ['store']]);
     }
     /**
