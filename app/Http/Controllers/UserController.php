@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['store']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -86,7 +90,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         $this->validate($request, [
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:users,email,',
             'password' => 'required|min:8|confirmed'
         ]);
         
